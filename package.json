@@ -1,0 +1,21 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "API of ctgv1",
+  "main": "main.js",
+  "dependencies": {
+    "core-util-is": "^1.0.2",
+    "express": "^4.16.4",
+    "inherits": "^2.0.3",
+    "isarray": "^1.0.0",
+    "mysql": "^2.16.0",
+    "nodemailer": "^5.1.1",
+    "process-nextick-args": "^2.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Swapnil Tiwari (CodeNova)",
+  "license": "ISC"
+}
