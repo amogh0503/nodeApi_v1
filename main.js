@@ -11,11 +11,54 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
-app.get('/',function (req,res)
+app.get('/', async function (req,res)
 {
-    db_functions.countRows();
+     await db_functions.countRows();
     
-    res.json({api:'CTG_V1',siteMap:'/submit',databsase:'ctg_v1',tables:'customers',author:'Swapnil Tiwari (CodeNova). All rights reserved',cors:'Enabled', querycount:count[0].emails})
+    res.json({api:'CTG_V1',siteMap:'/submit,/fetch',databsase:'ctg_v1',tables:'customers',author:'Swapnil Tiwari (CodeNova). All rights reserved',cors:'Enabled', querycount:count[0].emails})
+})
+app.get('/fetch', async function(req,res)
+{
+    await db_functions.fetchQuery();
+    var result=`<head><title>Query Record</title>
+    <style>  
+        .result_table
+        {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .result_table td, .result_table th
+        {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        td:nth-child(1)
+        {
+            text-align:center;
+        }
+        .result_table tr:nth-child(even){background-color: #f2f2f2;}
+
+        .result_table tr:hover {background-color: #ddd;}
+
+        .result_table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #05668D;
+            color: white;
+        }
+    </style>
+    <link href='/css/style.css' rel='stylesheet' ></head><body> <table class='result_table' style=''><tr><th>Customer Name</th><th>Email</th><th>Company Name</th><th>Contact Number</th></tr>`
+   
+    for(let each of allquery)
+    {
+        result+=`<tr><td>${each['firstname']} ${each['lastname']}</td><td>${each['email']}</td><td>${each['companyname']}</td><td>${each['contactnumber']}</td></tr>`
+    }
+    result+='</table></body>';
+    res.setHeader('content-type','text/html');
+    res.end(result);
+
 })
 app.post('/submit',function(req,res){
     let customer={
@@ -32,5 +75,5 @@ app.post('/submit',function(req,res){
     smail(customer); cmail(customer);
 
 })
-app.listen(process.env.PORT||80,()=>(console.log('Server Started')));
+app.listen(process.env.PORT||8888,()=>(console.log('Server Started')));
 process.on('uncaughtException',console.log)

@@ -11,8 +11,18 @@ exports.enterDetails=async function (customer={})
 }
 exports.countRows=async function ()
 {
-    count=await mysql.ExecuteQuery('SELECT COUNT(email) as emails FROM customers');
+    return new Promise( async function(res,rej)
+    {
+        count=await mysql.ExecuteQuery('SELECT COUNT(email) as emails FROM customers');
+            res(count);
+
+    })
+    
    //console.log(count[0].emails);
+}
+exports.fetchQuery=async function()
+{
+    allquery=await mysql.ExecuteQuery('SELECT * FROM customers ORDER BY sno DESC');
 }
 process.on('uncaughtException',console.log);
 //x={fname:'Swap',lname:'Tiwari',email:'swap@gmail.com',org:'CodeNova',cno:'123',website:'swap.com',comments:'Test'};
